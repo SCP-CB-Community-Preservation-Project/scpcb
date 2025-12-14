@@ -98,7 +98,7 @@ Function CreateItemTemplate.ItemTemplates(name$, tempname$, objpath$, invimgpath
 	;	
 	;	;DebugLog imgpath
 	;	
-	;	If it\img<>0 Then ResizeImage(it\img, ImageWidth(it\img) * MenuScale, ImageHeight(it\img) * MenuScale)
+	;	If it\img<>0 Then ScaleImage(it\img, MenuScale, MenuScale)
 	;EndIf
 	
 	it\tempname = tempname
