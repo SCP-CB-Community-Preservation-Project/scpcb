@@ -508,6 +508,35 @@ Function LoadRMesh(file$,rt.RoomTemplates)
 					
 					;Stop
 				EndIf
+			Case "item"
+				If rt\TempItemAmount = MaxRoomItems Then
+					RuntimeError("Too many items in room "+Chr(34)+file+Chr(34)+".")
+				EndIf
+
+				it.TempItems = New TempItems
+				
+				it\X = ReadFloat(f) * RoomScale
+				it\Y = ReadFloat(f) * RoomScale
+				it\Z = ReadFloat(f) * RoomScale
+
+				it\Name = ReadString(f)
+				it\TempName = ReadString(f)
+				If it\Name = "" Then
+					itt.ItemTemplates = FindItemTemplate(it\TempName)
+					If itt = Null Then
+						RuntimeError("Item template for "+Chr(34)+it\TempName+Chr(34)+" not found.")
+					Else
+						it\Name = itt\name
+					EndIf
+				EndIf
+
+				it\HasCustomAngle = ReadByte(f)
+				it\AngleX = ReadFloat(f)
+				it\AngleY = ReadFloat(f)
+				it\AngleZ = ReadFloat(f)
+
+				rt\TempItem[rt\TempItemAmount] = it
+				rt\TempItemAmount = rt\TempItemAmount + 1
 		End Select
 	Next
 	
@@ -549,6 +578,15 @@ Function LoadRMesh(file$,rt.RoomTemplates)
 	
 End Function
 
+Function ResetAllRMeshes()
+	Delete Each TempWayPoints
+	Delete Each TempScreens
+	Delete Each TempItems
+	For rt.RoomTemplates = Each RoomTemplates
+		rt\TempItemAmount = 0
+		If rt\obj <> 0 Then FreeEntity(rt\obj) : rt\obj = 0
+	Next
+End Function
 
 ;-----------;;;;
 
@@ -1389,6 +1427,7 @@ End Function
 Const MaxRoomLights% = 32
 Const MaxRoomEmitters% = 8
 Const MaxRoomObjects% = 30
+COnst MaxRoomItems% = 32
 
 
 Const ROOM1% = 1, ROOM2% = 2, ROOM2C% = 3, ROOM3% = 4, ROOM4% = 5
@@ -1413,6 +1452,9 @@ Type RoomTemplates
 	Field TempTriggerboxAmount
 	Field TempTriggerbox[128]
 	Field TempTriggerboxName$[128]
+
+	Field TempItemAmount
+	Field TempItem.TempItems[MaxRoomItems]
 	
 	Field UseLightCones%
 	
@@ -1421,6 +1463,12 @@ Type RoomTemplates
 	Field MinX#, MinY#, MinZ#
 	Field MaxX#, MaxY#, MaxZ#
 End Type 	
+
+Type TempItems
+	Field Name$, TempName$
+	Field X#, Y#, Z#
+	Field HasCustomAngle%, AngleX#, AngleY#, AngleZ#
+End Type
 
 Function CreateRoomTemplate.RoomTemplates(meshpath$)
 	Local rt.RoomTemplates = New RoomTemplates
@@ -5332,6 +5380,16 @@ Function FillRoom(r.Rooms)
 			r\SoundEmitter[i] = r\RoomTemplate\TempSoundEmitter[i]
 			r\SoundEmitterRange[i] = r\RoomTemplate\TempSoundEmitterRange[i]
 		EndIf
+	Next
+
+	For i = 0 To r\RoomTemplate\TempItemAmount-1
+		Local tempIt.TempItems = r\RoomTemplate\TempItem[i]
+		it.Items = CreateItem(tempIt\Name, tempit\TempName, r\x + tempIt\X, r\y + tempIt\Y, r\z + tempIt\Z)
+		If tempIt\HasCustomAngle Then
+			RotateEntity(it\collider, tempIt\AngleX, r\angle + tempIt\AngleY, tempIt\AngleZ)
+		EndIf
+		EntityType(it\collider, HIT_ITEM)
+		EntityParent(it\collider, r\obj)
 	Next
 	
 	CatchErrors("FillRoom ("+r\RoomTemplate\Name+")")

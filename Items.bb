@@ -330,6 +330,15 @@ Function InitItemTemplates()
 	
 End Function 
 
+Function FindItemTemplate.ItemTemplates(name$)
+	name$ = Lower(name$)
+	For itt.Itemtemplates = Each ItemTemplates
+		If (Lower(itt\name) = name) Or Lower(itt\tempname = name) Then
+			Return itt
+		End If
+	Next
+End Function
+
 
 
 Type Items

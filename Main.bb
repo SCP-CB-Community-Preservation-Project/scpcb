@@ -849,25 +849,14 @@ Function UpdateConsole()
 					;[End Block]
 				Case "spawnitem"
 					;[Block]
-					StrTemp$ = Lower(Right(ConsoleInput, Len(ConsoleInput) - Instr(ConsoleInput, " ")))
-					temp = False 
-					For itt.Itemtemplates = Each ItemTemplates
-						If (Lower(itt\name) = StrTemp) Then
-							temp = True
-							CreateConsoleMsg(itt\name + " spawned.")
-							it.Items = CreateItem(itt\name, itt\tempname, EntityX(Collider), EntityY(Camera,True), EntityZ(Collider))
-							EntityType(it\collider, HIT_ITEM)
-							Exit
-						Else If (Lower(itt\tempname) = StrTemp) Then
-							temp = True
-							CreateConsoleMsg(itt\name + " spawned.")
-							it.Items = CreateItem(itt\name, itt\tempname, EntityX(Collider), EntityY(Camera,True), EntityZ(Collider))
-							EntityType(it\collider, HIT_ITEM)
-							Exit
-						End If
-					Next
-					
-					If temp = False Then CreateConsoleMsg("Item not found.",255,150,0)
+					Local itt.ItemTemplates = FindItemTemplate(Right(ConsoleInput, Len(ConsoleInput) - Instr(ConsoleInput, " ")))
+					If itt = Null Then
+						CreateConsoleMsg("Item not found.",255,150,0)
+					Else
+						CreateConsoleMsg(itt\name + " spawned.")
+						it.Items = CreateItem(itt\name, itt\tempname, EntityX(Collider), EntityY(Camera,True), EntityZ(Collider))
+						EntityType(it\collider, HIT_ITEM)
+					End If
 					;[End Block]
 				Case "wireframe"
 					;[Block]
@@ -8431,20 +8420,7 @@ Function InitNewGame()
 		
 	Next
 	
-	Local rt.RoomTemplates
-	For rt.RoomTemplates = Each RoomTemplates
-		FreeEntity (rt\obj)
-	Next	
-	
-	Local tw.TempWayPoints
-	For tw.TempWayPoints = Each TempWayPoints
-		Delete tw
-	Next
-	
-	Local ts.TempScreens
-	For ts.TempScreens = Each TempScreens
-		Delete ts
-	Next
+	ResetAllRMeshes()
 	
 	TurnEntity(Collider, 0, Rand(160, 200), 0)
 	
@@ -8537,19 +8513,7 @@ Function InitLoadGame()
 	BlinkTimer = BLINKFREQ
 	Stamina = 100
 	
-	For rt.RoomTemplates = Each RoomTemplates
-		If rt\obj <> 0 Then FreeEntity(rt\obj) : rt\obj = 0
-	Next
-	
-	Local tw.TempWayPoints
-	For tw.TempWayPoints = Each TempWayPoints
-		Delete tw
-	Next
-	
-	Local ts.TempScreens
-	For ts.TempScreens = Each TempScreens
-		Delete ts
-	Next
+	ResetAllRMeshes()
 	
 	DropSpeed = 0.0
 	
@@ -8776,10 +8740,6 @@ Function NullGame(playbuttonsfx%=True)
 		Delete wp
 	Next
 	
-	For twp.TempWayPoints = Each TempWayPoints
-		Delete twp
-	Next	
-	
 	For r.Rooms = Each Rooms
 		Delete r
 	Next
@@ -8831,9 +8791,7 @@ Function NullGame(playbuttonsfx%=True)
 		Delete p
 	Next
 	
-	For rt.RoomTemplates = Each RoomTemplates
-		rt\obj = 0
-	Next
+	ResetAllRMeshes()
 	
 	For i = 0 To 5
 		If ChannelPlaying(RadioCHN(i)) Then StopChannel(RadioCHN(i))
