@@ -535,6 +535,11 @@ Function LoadRMesh(file$,rt.RoomTemplates)
 				it\AngleY = ReadFloat(f)
 				it\AngleZ = ReadFloat(f)
 
+				it\State = ReadFloat(f)
+				it\State2 = ReadFloat(f)
+
+				it\Chance = ReadFloat(f)
+
 				rt\TempItem[rt\TempItemAmount] = it
 				rt\TempItemAmount = rt\TempItemAmount + 1
 		End Select
@@ -1468,6 +1473,8 @@ Type TempItems
 	Field Name$, TempName$
 	Field X#, Y#, Z#
 	Field HasCustomAngle%, AngleX#, AngleY#, AngleZ#
+	Field State#, State2#
+	Field Chance#
 End Type
 
 Function CreateRoomTemplate.RoomTemplates(meshpath$)
@@ -5384,12 +5391,16 @@ Function FillRoom(r.Rooms)
 
 	For i = 0 To r\RoomTemplate\TempItemAmount-1
 		Local tempIt.TempItems = r\RoomTemplate\TempItem[i]
-		it.Items = CreateItem(tempIt\Name, tempit\TempName, r\x + tempIt\X, r\y + tempIt\Y, r\z + tempIt\Z)
-		If tempIt\HasCustomAngle Then
-			RotateEntity(it\collider, tempIt\AngleX, r\angle + tempIt\AngleY, tempIt\AngleZ)
+		If tempIt\Chance = 1.0 Or Rnd(1.0) < tempIt\Chance Then
+			it.Items = CreateItem(tempIt\Name, tempit\TempName, r\x + tempIt\X, r\y + tempIt\Y, r\z + tempIt\Z)
+			If tempIt\HasCustomAngle Then
+				RotateEntity(it\collider, tempIt\AngleX, r\angle + tempIt\AngleY, tempIt\AngleZ)
+			EndIf
+			it\state = tempIt\State
+			it\state2 = tempIt\State2
+			EntityType(it\collider, HIT_ITEM)
+			EntityParent(it\collider, r\obj)
 		EndIf
-		EntityType(it\collider, HIT_ITEM)
-		EntityParent(it\collider, r\obj)
 	Next
 	
 	CatchErrors("FillRoom ("+r\RoomTemplate\Name+")")
