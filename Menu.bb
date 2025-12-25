@@ -3,7 +3,6 @@ Global MenuText% = LoadImage_Strict("GFX\menu\scptext.jpg")
 Global Menu173% = LoadImage_Strict("GFX\menu\173back.jpg")
 MenuWhite = LoadImage_Strict("GFX\menu\menuwhite.jpg")
 MenuBlack = LoadImage_Strict("GFX\menu\menublack.jpg")
-MaskImage MenuBlack, 255,255,0
 Global QuickLoadIcon% = LoadImage_Strict("GFX\menu\QuickLoading.png")
 
 ScaleImage(MenuBack, MenuScale, MenuScale)
@@ -1112,7 +1111,6 @@ Function UpdateLauncher()
 	SetFont Font1
 	MenuWhite = LoadImage_Strict("GFX\menu\menuwhite.jpg")
 	MenuBlack = LoadImage_Strict("GFX\menu\menublack.jpg")	
-	MaskImage MenuBlack, 255,255,0
 	Local LauncherIMG% = LoadImage_Strict("GFX\menu\launcher.png")
 	Local i%	
 	

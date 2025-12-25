@@ -4069,7 +4069,6 @@ Function UpdateEvents()
 							If itt\name = "Drawing" Then
 								If itt\img<>0 Then FreeImage itt\img	
 								itt\img = LoadImage_Strict(imgPath)
-								MaskImage(itt\img, 255,0,255)
 								itt\imgpath = imgPath
 								
 								Exit

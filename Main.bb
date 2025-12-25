@@ -1695,7 +1695,6 @@ Global PrevInjuries#,PrevBloodloss#
 Global NoTarget% = False
 
 Global NVGImages = LoadAnimImage("GFX\battery.png",64,64,0,2)
-MaskImage NVGImages,255,0,255
 
 Global Wearing1499% = False
 Global AmbientLightRoomTex%, AmbientLightRoomVal%
@@ -1738,7 +1737,6 @@ Global ParticleAmount% = GetINIInt(OptionFile,"options","particle amount")
 Dim NavImages(5)
 For i = 0 To 3
 	NavImages(i) = LoadImage_Strict("GFX\navigator\roomborder"+i+".png")
-	MaskImage NavImages(i),255,0,255
 Next
 NavImages(4) = LoadImage_Strict("GFX\navigator\batterymeter.png")
 
@@ -5912,8 +5910,6 @@ Function DrawGUI()
 								SelectedItem\itemtemplate\img=LoadImage_Strict(SelectedItem\itemtemplate\imgpath)	
 								ScaleImage(SelectedItem\itemtemplate\img, MenuScale, MenuScale)
 						End Select
-						
-						MaskImage(SelectedItem\itemtemplate\img, 255, 0, 255)
 					EndIf
 					
 					DrawImage(SelectedItem\itemtemplate\img, GraphicWidth / 2 - ImageWidth(SelectedItem\itemtemplate\img) / 2, GraphicHeight / 2 - ImageHeight(SelectedItem\itemtemplate\img) / 2)
@@ -5925,8 +5921,6 @@ Function DrawGUI()
 						SelectedItem\state = Rand(0,5)
 						SelectedItem\itemtemplate\img=LoadImage_Strict("GFX\items\1025\1025_"+Int(SelectedItem\state)+".jpg")	
 						ScaleImage(SelectedItem\itemtemplate\img, MenuScale, MenuScale)
-						
-						MaskImage(SelectedItem\itemtemplate\img, 255, 0, 255)
 					EndIf
 					
 					If (Not Wearing714) Then SCP1025state[SelectedItem\state]=Max(1,SCP1025state[SelectedItem\state])
@@ -6081,7 +6075,6 @@ Function DrawGUI()
 					
 					If SelectedItem\itemtemplate\img=0 Then
 						SelectedItem\itemtemplate\img=LoadImage_Strict(SelectedItem\itemtemplate\imgpath)	
-						MaskImage(SelectedItem\itemtemplate\img, 255, 0, 255)
 					EndIf
 					
 					;radiostate(5) = has the "use the number keys" -message been shown yet (true/false)
@@ -6590,7 +6583,6 @@ Function DrawGUI()
 					
 					If SelectedItem\itemtemplate\img=0 Then
 						SelectedItem\itemtemplate\img=LoadImage_Strict(SelectedItem\itemtemplate\imgpath)	
-						MaskImage(SelectedItem\itemtemplate\img, 255, 0, 255)
 					EndIf
 					
 					If SelectedItem\state <= 100 Then SelectedItem\state = Max(0, SelectedItem\state - FPSfactor * 0.005)
@@ -6894,8 +6886,6 @@ Function DrawGUI()
 					If SelectedItem\itemtemplate\img=0 Then
 						SelectedItem\itemtemplate\img=LoadImage_Strict(SelectedItem\itemtemplate\imgpath)	
 						;ScaleImage(SelectedItem\itemtemplate\img, MenuScale, MenuScale)
-						
-						MaskImage(SelectedItem\itemtemplate\img, 255, 0, 255)
 					EndIf
 					
 					DrawImage(SelectedItem\itemtemplate\img, GraphicWidth / 2 - ImageWidth(SelectedItem\itemtemplate\img) / 2, GraphicHeight / 2 - ImageHeight(SelectedItem\itemtemplate\img) / 2)
@@ -6928,8 +6918,6 @@ Function DrawGUI()
 					If SelectedItem\itemtemplate\img = 0 Then
 						SelectedItem\itemtemplate\img = LoadImage_Strict(SelectedItem\itemtemplate\imgpath)	
 						ScaleImage(SelectedItem\itemtemplate\img, MenuScale, MenuScale)
-						
-						MaskImage(SelectedItem\itemtemplate\img, 255, 0, 255)
 					EndIf
 					
 					DrawImage(SelectedItem\itemtemplate\img, GraphicWidth / 2 - ImageWidth(SelectedItem\itemtemplate\img) / 2, GraphicHeight / 2 - ImageHeight(SelectedItem\itemtemplate\img) / 2)
@@ -7779,7 +7767,6 @@ Function LoadEntities()
 	Next
 	
 	PauseMenuIMG% = LoadImage_Strict("GFX\menu\pausemenu.jpg")
-	MaskImage PauseMenuIMG, 255,255,0
 	ScaleImage PauseMenuIMG,MenuScale,MenuScale
 	
 	SprintIcon% = LoadImage_Strict("GFX\sprinticon.png")
@@ -7791,10 +7778,8 @@ Function LoadEntities()
 	StaminaMeterIMG% = LoadImage_Strict("GFX\staminameter.jpg")
 
 	KeypadHUD =  LoadImage_Strict("GFX\keypadhud.jpg")
-	MaskImage(KeypadHUD, 255,0,255)
 
 	Panel294 = LoadImage_Strict("GFX\294panel.jpg")
-	MaskImage(Panel294, 255,0,255)
 	
 	
 	Brightness% = GetINIFloat("options.ini", "options", "brightness")
