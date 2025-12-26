@@ -28,7 +28,7 @@ For i = 0 To MAXACHIEVEMENTS-1
 	Local image$ = GetINIString2("Data\achievementstrings.ini", loc2, "image") 
 	
 	AchvIMG(i) = LoadImage_Strict("GFX\menu\achievements\"+image+".jpg")
-	ScaleImage(AchvIMG(i),1.0,1.0)
+	ScaleImage(AchvIMG(i), GraphicHeight/768.0, GraphicHeight/768.0)
 Next
 
 Global AchvLocked = LoadImage_Strict("GFX\menu\achievements\achvlocked.jpg")
