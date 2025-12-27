@@ -1994,8 +1994,6 @@ Function DrawOptionsTooltip(x%,y%,width%,height%,option$,value#=0,ingame%=False)
 			txt = txt + "screen tearing. This ties the game's frame rate to your display's refresh rate and may cause some input lag."
 		Case "antialias"
 			txt = Chr(34)+"Anti-Aliasing"+Chr(34)+" is used to smooth the rendered image before displaying in order to reduce aliasing around the edges of models."
-			txt2 = "This option only takes effect in fullscreen."
-			R = 255
 		Case "roomlights"
 			txt = "Toggles the artificial lens flare effect generated over specific light sources."
 		Case "gamma"
