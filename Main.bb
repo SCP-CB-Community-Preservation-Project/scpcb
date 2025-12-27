@@ -1507,8 +1507,6 @@ Global StoredCameraFogFar# = CameraFogFar
 
 Global MouseSens# = GetINIFloat("options.ini", "options", "mouse sensitivity")
 
-Global EnableVRam% = GetINIInt("options.ini", "options", "enable vram")
-
 Include "dreamfilter.bb"
 
 Dim LightSpriteTex(10)
@@ -7269,14 +7267,6 @@ Function DrawMenu()
 					If (MouseOn(x+270*MenuScale,y-6*MenuScale,100*MenuScale+14,20) And OnSliderID=0) Or OnSliderID=3
 						DrawOptionsTooltip(tx,ty,tw,th+100*MenuScale,"texquality")
 					EndIf
-					
-					y=y+50*MenuScale
-					Color 100,100,100
-					Text(x, y, "Save textures in the VRAM:")	
-					EnableVRam = DrawTick(x + 270 * MenuScale, y + MenuScale, EnableVRam, True)
-					If MouseOn(x + 270 * MenuScale, y + MenuScale, 20*MenuScale,20*MenuScale) And OnSliderID=0
-						DrawOptionsTooltip(tx,ty,tw,th,"vram")
-					EndIf
 
 					y=y+50*MenuScale
 
@@ -11092,7 +11082,6 @@ Function SaveOptionsINI()
 	PutINIValue(OptionFile, "console", "enabled", CanOpenConsole%)
 	PutINIValue(OptionFile, "console", "auto opening", ConsoleOpening%)
 	PutINIValue(OptionFile, "options", "particle amount", ParticleAmount)
-	PutINIValue(OptionFile, "options", "enable vram", EnableVRam)
 	PutINIValue(OptionFile, "options", "mouse smoothing", MouseSmooth)
 	PutINIValue(OptionFile, "options", "fov", FOV)
 	
