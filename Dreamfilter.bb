@@ -32,15 +32,12 @@ Function CreateBlurImage()
 	ark_blur_image = spr
 	
 	;Create blur texture
-	ark_blur_texture = CreateTexture(2048, 2048, 256)
+	ark_blur_texture = CreateTexture(2048, 2048, 1 + 256 + 1024)
 	EntityTexture spr, ark_blur_texture
 End Function
 
 Function UpdateBlur(power#)
-	
 	EntityAlpha ark_blur_image, power#
-	
-	;CopyRect ark_sw / 2 - 1024, ark_sh / 2 - 1024, 2048, 2048, 0, 0, BackBuffer(), TextureBuffer(ark_blur_texture)
 	CopyRect 0, 0, GraphicWidth, GraphicHeight, 1024.0 - GraphicWidth/2, 1024.0 - GraphicHeight/2, BackBuffer(), TextureBuffer(ark_blur_texture)
 	
 End Function

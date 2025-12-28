@@ -1505,8 +1505,6 @@ Global StoredCameraFogFar# = CameraFogFar
 
 Global MouseSens# = GetINIFloat("options.ini", "options", "mouse sensitivity")
 
-Global EnableVRam% = GetINIInt("options.ini", "options", "enable vram")
-
 Include "dreamfilter.bb"
 
 Dim LightSpriteTex(10)
@@ -1693,7 +1691,6 @@ Global PrevInjuries#,PrevBloodloss#
 Global NoTarget% = False
 
 Global NVGImages = LoadAnimImage("GFX\battery.png",64,64,0,2)
-MaskImage NVGImages,255,0,255
 
 Global Wearing1499% = False
 Global AmbientLightRoomTex%, AmbientLightRoomVal%
@@ -1736,7 +1733,6 @@ Global ParticleAmount% = GetINIInt(OptionFile,"options","particle amount")
 Dim NavImages(5)
 For i = 0 To 3
 	NavImages(i) = LoadImage_Strict("GFX\navigator\roomborder"+i+".png")
-	MaskImage NavImages(i),255,0,255
 Next
 NavImages(4) = LoadImage_Strict("GFX\navigator\batterymeter.png")
 
@@ -4701,7 +4697,7 @@ Function DrawGUI()
 		Rect (x, y, width, height, False)
 		For i = 1 To Int(((width - 2) * (BlinkTimer / (BLINKFREQ))) / 10)
 			DrawImage(BlinkMeterIMG, x + 3 + 10 * (i - 1), y + 3)
-		Next	
+		Next
 		Color 0, 0, 0
 		Rect(x - 50, y, 30, 30)
 		
@@ -5886,7 +5882,7 @@ Function DrawGUI()
 								SetBuffer BackBuffer()
 							Case "Document SCP-372"
 								SelectedItem\itemtemplate\img = LoadImage_Strict(SelectedItem\itemtemplate\imgpath)	
-								SelectedItem\itemtemplate\img = ResizeImage2(SelectedItem\itemtemplate\img, ImageWidth(SelectedItem\itemtemplate\img) * MenuScale, ImageHeight(SelectedItem\itemtemplate\img) * MenuScale)
+								ScaleImage(SelectedItem\itemtemplate\img, MenuScale, MenuScale)
 								
 								SetBuffer ImageBuffer(SelectedItem\itemtemplate\img)
 								Color 37,45,137
@@ -5908,10 +5904,8 @@ Function DrawGUI()
 								EndIf
 							Default 
 								SelectedItem\itemtemplate\img=LoadImage_Strict(SelectedItem\itemtemplate\imgpath)	
-								SelectedItem\itemtemplate\img = ResizeImage2(SelectedItem\itemtemplate\img, ImageWidth(SelectedItem\itemtemplate\img) * MenuScale, ImageHeight(SelectedItem\itemtemplate\img) * MenuScale)
+								ScaleImage(SelectedItem\itemtemplate\img, MenuScale, MenuScale)
 						End Select
-						
-						MaskImage(SelectedItem\itemtemplate\img, 255, 0, 255)
 					EndIf
 					
 					DrawImage(SelectedItem\itemtemplate\img, GraphicWidth / 2 - ImageWidth(SelectedItem\itemtemplate\img) / 2, GraphicHeight / 2 - ImageHeight(SelectedItem\itemtemplate\img) / 2)
@@ -5922,9 +5916,7 @@ Function DrawGUI()
 					If SelectedItem\itemtemplate\img=0 Then
 						SelectedItem\state = Rand(0,5)
 						SelectedItem\itemtemplate\img=LoadImage_Strict("GFX\items\1025\1025_"+Int(SelectedItem\state)+".jpg")	
-						SelectedItem\itemtemplate\img = ResizeImage2(SelectedItem\itemtemplate\img, ImageWidth(SelectedItem\itemtemplate\img) * MenuScale, ImageHeight(SelectedItem\itemtemplate\img) * MenuScale)
-						
-						MaskImage(SelectedItem\itemtemplate\img, 255, 0, 255)
+						ScaleImage(SelectedItem\itemtemplate\img, MenuScale, MenuScale)
 					EndIf
 					
 					If (Not Wearing714) Then SCP1025state[SelectedItem\state]=Max(1,SCP1025state[SelectedItem\state])
@@ -6079,7 +6071,6 @@ Function DrawGUI()
 					
 					If SelectedItem\itemtemplate\img=0 Then
 						SelectedItem\itemtemplate\img=LoadImage_Strict(SelectedItem\itemtemplate\imgpath)	
-						MaskImage(SelectedItem\itemtemplate\img, 255, 0, 255)
 					EndIf
 					
 					;radiostate(5) = has the "use the number keys" -message been shown yet (true/false)
@@ -6588,7 +6579,6 @@ Function DrawGUI()
 					
 					If SelectedItem\itemtemplate\img=0 Then
 						SelectedItem\itemtemplate\img=LoadImage_Strict(SelectedItem\itemtemplate\imgpath)	
-						MaskImage(SelectedItem\itemtemplate\img, 255, 0, 255)
 					EndIf
 					
 					If SelectedItem\state <= 100 Then SelectedItem\state = Max(0, SelectedItem\state - FPSfactor * 0.005)
@@ -6891,9 +6881,7 @@ Function DrawGUI()
 					;[Block]
 					If SelectedItem\itemtemplate\img=0 Then
 						SelectedItem\itemtemplate\img=LoadImage_Strict(SelectedItem\itemtemplate\imgpath)	
-						;SelectedItem\itemtemplate\img = ResizeImage2(SelectedItem\itemtemplate\img, ImageWidth(SelectedItem\itemtemplate\img) * MenuScale, ImageHeight(SelectedItem\itemtemplate\img) * MenuScale)
-						
-						MaskImage(SelectedItem\itemtemplate\img, 255, 0, 255)
+						;ScaleImage(SelectedItem\itemtemplate\img, MenuScale, MenuScale)
 					EndIf
 					
 					DrawImage(SelectedItem\itemtemplate\img, GraphicWidth / 2 - ImageWidth(SelectedItem\itemtemplate\img) / 2, GraphicHeight / 2 - ImageHeight(SelectedItem\itemtemplate\img) / 2)
@@ -6925,9 +6913,7 @@ Function DrawGUI()
 					;[Block]
 					If SelectedItem\itemtemplate\img = 0 Then
 						SelectedItem\itemtemplate\img = LoadImage_Strict(SelectedItem\itemtemplate\imgpath)	
-						SelectedItem\itemtemplate\img = ResizeImage2(SelectedItem\itemtemplate\img, ImageWidth(SelectedItem\itemtemplate\img) * MenuScale, ImageHeight(SelectedItem\itemtemplate\img) * MenuScale)
-						
-						MaskImage(SelectedItem\itemtemplate\img, 255, 0, 255)
+						ScaleImage(SelectedItem\itemtemplate\img, MenuScale, MenuScale)
 					EndIf
 					
 					DrawImage(SelectedItem\itemtemplate\img, GraphicWidth / 2 - ImageWidth(SelectedItem\itemtemplate\img) / 2, GraphicHeight / 2 - ImageHeight(SelectedItem\itemtemplate\img) / 2)
@@ -7278,14 +7264,6 @@ Function DrawMenu()
 					TextureLodBias TextureFloat
 					If (MouseOn(x+270*MenuScale,y-6*MenuScale,100*MenuScale+14,20) And OnSliderID=0) Or OnSliderID=3
 						DrawOptionsTooltip(tx,ty,tw,th+100*MenuScale,"texquality")
-					EndIf
-					
-					y=y+50*MenuScale
-					Color 100,100,100
-					Text(x, y, "Save textures in the VRAM:")	
-					EnableVRam = DrawTick(x + 270 * MenuScale, y + MenuScale, EnableVRam, True)
-					If MouseOn(x + 270 * MenuScale, y + MenuScale, 20*MenuScale,20*MenuScale) And OnSliderID=0
-						DrawOptionsTooltip(tx,ty,tw,th,"vram")
 					EndIf
 
 					y=y+50*MenuScale
@@ -7777,7 +7755,6 @@ Function LoadEntities()
 	Next
 	
 	PauseMenuIMG% = LoadImage_Strict("GFX\menu\pausemenu.jpg")
-	MaskImage PauseMenuIMG, 255,255,0
 	ScaleImage PauseMenuIMG,MenuScale,MenuScale
 	
 	SprintIcon% = LoadImage_Strict("GFX\sprinticon.png")
@@ -7789,10 +7766,8 @@ Function LoadEntities()
 	StaminaMeterIMG% = LoadImage_Strict("GFX\staminameter.jpg")
 
 	KeypadHUD =  LoadImage_Strict("GFX\keypadhud.jpg")
-	MaskImage(KeypadHUD, 255,0,255)
 
 	Panel294 = LoadImage_Strict("GFX\294panel.jpg")
-	MaskImage(Panel294, 255,0,255)
 	
 	
 	Brightness% = GetINIFloat("options.ini", "options", "brightness")
@@ -7834,7 +7809,7 @@ Function LoadEntities()
 	EntityTexture(Fog, FogTexture)
 	EntityBlend (Fog, 2)
 	EntityOrder Fog, -1000
-	MoveEntity(Fog, 0, 0, 1.0)
+	MoveEntity(Fog, -0.0005, 0.0005, 1.0)
 	
 	GasMaskTexture = LoadTexture_Strict("GFX\GasmaskOverlay.jpg", 1)
 	GasMaskOverlay = CreateSprite(ark_blur_cam)
@@ -7843,7 +7818,7 @@ Function LoadEntities()
 	EntityBlend (GasMaskOverlay, 2)
 	EntityFX(GasMaskOverlay, 1)
 	EntityOrder GasMaskOverlay, -1003
-	MoveEntity(GasMaskOverlay, 0, 0, 1.0)
+	MoveEntity(GasMaskOverlay, -0.0005, 0.0005, 1.0)
 	HideEntity(GasMaskOverlay)
 	
 	InfectTexture = LoadTexture_Strict("GFX\InfectOverlay.jpg", 1)
@@ -7853,7 +7828,7 @@ Function LoadEntities()
 	EntityBlend (InfectOverlay, 3)
 	EntityFX(InfectOverlay, 1)
 	EntityOrder InfectOverlay, -1003
-	MoveEntity(InfectOverlay, 0, 0, 1.0)
+	MoveEntity(InfectOverlay, -0.0005, 0.0005, 1.0)
 	;EntityAlpha (InfectOverlay, 255.0)
 	HideEntity(InfectOverlay)
 	
@@ -7864,14 +7839,14 @@ Function LoadEntities()
 	EntityBlend (NVOverlay, 2)
 	EntityFX(NVOverlay, 1)
 	EntityOrder NVOverlay, -1003
-	MoveEntity(NVOverlay, 0, 0, 1.0)
+	MoveEntity(NVOverlay, -0.0005, 0.0005, 1.0)
 	HideEntity(NVOverlay)
 	NVBlink = CreateSprite(ark_blur_cam)
 	ScaleSprite(NVBlink, 1.0, Float(GraphicHeight) / Float(GraphicWidth))
 	EntityColor(NVBlink,0,0,0)
 	EntityFX(NVBlink, 1)
 	EntityOrder NVBlink, -1005
-	MoveEntity(NVBlink, 0, 0, 1.0)
+	MoveEntity(NVBlink, -0.0005, 0.0005, 1.0)
 	HideEntity(NVBlink)
 	
 	FogNVTexture = LoadTexture_Strict("GFX\fogNV.jpg", 1)
@@ -7888,7 +7863,7 @@ Function LoadEntities()
 	EntityTexture(Dark, DarkTexture)
 	EntityBlend (Dark, 1)
 	EntityOrder Dark, -1002
-	MoveEntity(Dark, 0, 0, 1.0)
+	MoveEntity(Dark, -0.0005, 0.0005, 1.0)
 	EntityAlpha Dark, 0.0
 	
 	LightTexture = CreateTexture(1024, 1024, 1 + 2+256)
@@ -7905,7 +7880,7 @@ Function LoadEntities()
 	EntityTexture(Light, LightTexture)
 	EntityBlend (Light, 1)
 	EntityOrder Light, -1002
-	MoveEntity(Light, 0, 0, 1.0)
+	MoveEntity(Light, -0.0005, 0.0005, 1.0)
 	HideEntity Light
 	
 	Collider = CreatePivot()
@@ -11105,7 +11080,6 @@ Function SaveOptionsINI()
 	PutINIValue(OptionFile, "console", "enabled", CanOpenConsole%)
 	PutINIValue(OptionFile, "console", "auto opening", ConsoleOpening%)
 	PutINIValue(OptionFile, "options", "particle amount", ParticleAmount)
-	PutINIValue(OptionFile, "options", "enable vram", EnableVRam)
 	PutINIValue(OptionFile, "options", "mouse smoothing", MouseSmooth)
 	PutINIValue(OptionFile, "options", "fov", FOV)
 	
@@ -11205,22 +11179,6 @@ Function Graphics3DExt%(width%,height%,depth%=32,mode%=2)
 	;InitExt()
 	AntiAlias GetINIInt(OptionFile,"options","antialias")
 	;TextureAnisotropy% (GetINIInt(OptionFile,"options","anisotropy"),-1)
-End Function
-
-Function ResizeImage2(image%,width%,height%)
-    img% = CreateImage(width,height)
-	
-	oldWidth% = ImageWidth(image)
-	oldHeight% = ImageHeight(image)
-	CopyRect 0,0,oldWidth,oldHeight,1024-oldWidth/2,1024-oldHeight/2,ImageBuffer(image),TextureBuffer(fresize_texture)
-	SetBuffer BackBuffer()
-	ScaleRender(0,0,2048.0 / Float(RealGraphicWidth) * Float(width) / Float(oldWidth), 2048.0 / Float(RealGraphicWidth) * Float(height) / Float(oldHeight))
-	;might want to replace Float(GraphicWidth) with Max(GraphicWidth,GraphicHeight) if portrait sizes cause issues
-	;everyone uses landscape so it's probably a non-issue
-	CopyRect RealGraphicWidth/2-width/2,RealGraphicHeight/2-height/2,width,height,0,0,BackBuffer(),ImageBuffer(img)
-	
-    FreeImage image
-    Return img
 End Function
 
 

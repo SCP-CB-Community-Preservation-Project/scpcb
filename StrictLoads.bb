@@ -309,7 +309,7 @@ End Function
 Function LoadTexture_Strict(File$,flags=1)
 	File = DetermineModdedPath(File)
 	If FileType(File$) <> 1 Then RuntimeError "Texture " + File$ + " not found."
-	tmp = LoadTexture(File$, flags+(256*(EnableVRam=True)))
+	tmp = LoadTexture(File$, flags)
 	If tmp = 0 Then RuntimeError "Failed to load Texture: " + File$
 	Return tmp
 End Function
